@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <script src="/js/client.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('Service Worker registration successful with scope: ', registration.scope);
+                    }, function(err) {
+                        console.log('Service Worker registration failed: ', err);
+                    });
+            });
+        } 
+    </script>
+    <script>
+        function handleLogin(event) {
+            event.preventDefault(); 
+            const data = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+            fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.otpRequired) {
+                      document.getElementById('loginForm').style.display = 'none';
+                      document.getElementById('otpForm').style.display = 'block';
+                  } else {
+                      window.location.href = '/dashboard';
+                  }
+              }).catch(error => {
+                  console.error('Error during login:', error);
+                  document.getElementById('login-error').textContent = 'Login failed. Please try again.';
+                  document.getElementById('login-error').style.display = 'block';
+              });
+        }
+
+        function verifyOtp() {
+            const otp = document.getElementById('otp').value;
+            const username = document.getElementById('username').value;
+
+            fetch('/verify-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ otp: otp, username: username})
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      window.location.href = '/dashboard';
+                  } else {
+                      alert('Invalid OTP');
+                  }
+              }).catch(error => {
+                  console.error('Error verifying OTP:', error);
+                  alert('OTP verification failed');
+              });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('success') || urlParams.get('logged_out');
+            if (message) {
+                document.getElementById('message').textContent = message;
+            }
+
+            if (urlParams.has('error')) {
+                document.getElementById('login-error').textContent = 'Invalid username or password';
+                document.getElementById('login-error').style.display = 'block';
+            }
+        });
+    </script>
+</head>
+<body>
+    <header id="header">
+        <div class="logo">
+            <img src="/images/logo1.webp" alt="Storely Logo" style="height: 50px;">
+            <a>Storely</a>
+        </div>
+    </header>
+
+    <div class="container" id="home">
+        <div class="login-left">
+            <div class="login-header">
+                <h1>Welcome</h1>
+                <p>Please login to continue......</p>
+            </div>
+            <form id="loginForm" class="login-form" onsubmit="handleLogin(event)">
+                <div class="login-content">
+                    <div class="form-item">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                    <p>Not registered? <a href="signup">Sign up here</a></p>
+                </div>
+            </form>
+            <form id="otpForm" class="otp-form" style="display:none;">
+                <div class="form-item">
+                    <label for="otp">OTP:</label>
+                    <input type="text" id="otp" name="otp" required>
+                </div>
+                <button type="button" onclick="verifyOtp()">Verify OTP</button>
+            </form>
+            <div id="message"></div>
+            <div id="login-error" style="color: red; display: none;"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="/css/backend-plugin.min.css">
+        <link rel="stylesheet" href="/css/backend.css?v=1.0.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="css/Dashboard.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User Dashboard</title>
+        <script
+            src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <header id="header">
+            <div class="logo">
+                <img src="/images/logo1.webp" alt="Storely Logo"
+                    style="height: 50px;">
+                <a href>Storely</a>
+            </div>
+            <button class="Btn" onclick="performLogout();">
+                <div class="sign">
+                    <svg viewBox="0 0 512 512">
+                        <path
+                            d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                    </svg>
+                </div>
+                <div class="text">Logout</div>
+            </button>
+        </header>
+
+        <div class="header-container">
+            <h2>Your Files</h2>
+            <div class="form-container">
+                <form id="uploadForm">
+                    <input type="file" id="fileInput" name="file"
+                        style="display: none;" required>
+                    <button type='add file'
+                        onclick="document.getElementById('fileInput').click();">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125"
+                                stroke="#fffffff" stroke-width="2"></path>
+                            <path d="M17 15V18M17 21V18M17 18H14M17 18H20"
+                                stroke="#fffffff" stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                        ADD FILE
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row" id="file-container">
+            </div>
+        </div>
+
+        <script>
+        
+        function performLogout() {
+            window.location.href = '/logout'; 
+        }
+
+        
+    document.getElementById('fileInput').addEventListener('change', function() {
+        if (this.files.length > 0) {  
+            const formData = new FormData(document.getElementById('uploadForm'));
+            axios.post('/upload', formData)
+                .then(response => {
+                    if (response.data.success) {
+                        alert('File uploaded successfully');
+                        loadFiles(); 
+                    } else {
+                        alert(response.data.message); 
+                    }
+                })
+                .catch(error => {
+                    alert('Failed to upload file: ' + (error.response && error.response.data ? error.response.data.message : 'Server error'));
+                });
+        }
+    });
+
+        console.log("Script loaded!");
+
+        function loadFiles() {
+        axios.get('/api/files').then(response => {
+        username = response.data.username;
+        const files = response.data.files;
+        const fileContainer = document.getElementById('file-container');
+        fileContainer.innerHTML = '';
+
+        files.forEach(file => {
+            const column = document.createElement('div');
+            column.className = 'col-lg-3 col-md-6 col-sm-6';
+
+            const card = document.createElement('div');
+            card.className = 'card card-block card-stretch card-height';
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body image-thumb';
+
+            const link = document.createElement('a');
+            link.href = '#';
+            link.setAttribute('data-title', file);
+            link.setAttribute('data-load-file', 'file');
+            link.setAttribute('data-load-target', '#resolte-container');
+            link.setAttribute('data-url', `/uploads/${response.data.username}/${file}`);
+            link.setAttribute('data-toggle', 'modal');
+            link.setAttribute('data-target', '#exampleModal');
+
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'mb-4 text-center p-3 rounded iq-thumb';
+
+            const overlay = document.createElement('div');
+            overlay.className = 'iq-image-overlay';
+
+            const fileIcon = document.createElement('img');
+            const fileExtension = file.split('.').pop().toLowerCase();
+            switch(fileExtension) {
+                case 'pdf':
+                    fileIcon.src = '/images/pdf.png';
+                    break;
+                case 'txt':
+                    fileIcon.src = '/images/txt.png';
+                    break;
+                case 'xlsx':
+                    fileIcon.src = '/images/xlsx.png';
+                    break;
+                case 'pptx':
+                    fileIcon.src = '/images/ppt.png';
+                    break;    
+                default:
+                    fileIcon.src = '/images/Doc.png';
+            }
+            fileIcon.className = 'img-fluid';
+            fileIcon.alt = file;
+
+            imgContainer.appendChild(overlay);
+            imgContainer.appendChild(fileIcon);
+
+            const fileName = document.createElement('h6');
+            fileName.textContent = file;
+
+            link.appendChild(imgContainer);
+            link.appendChild(fileName);
+
+            cardBody.appendChild(link);
+
+            const downloadButton = document.createElement('button');
+            downloadButton.textContent = 'Download';
+            downloadButton.type = 'Download';
+            downloadButton.className = 'btn btn-link float-right';
+            downloadButton.onclick = () => downloadFile(file);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.type = 'Delete';
+            deleteButton.className = 'btn btn-link float-left'; 
+            deleteButton.onclick = () => deleteFile(file);
+
+            cardBody.appendChild(downloadButton);
+            cardBody.appendChild(deleteButton);
+
+            
+            card.appendChild(cardBody);
+
+
+            column.appendChild(card);
+
+            fileContainer.appendChild(column);
+        });
+    }).catch(error => console.error('Error loading files:', error));
+}
+
+function deleteFile(filename) {
+    axios.delete(`/delete/${filename}`)
+        .then(response => {
+            alert('File deleted successfully');
+            loadFiles();
+        })
+        .catch(error => {
+            if (error.response && error.response.status === 404) {
+                alert('File not found');
+            } else {
+                alert('Failed to delete file: ' + (error.response ? error.response.data : 'Server error'));
+            }
+        });
+}
+    function downloadFile(file) {
+        const fileUrl = `/download/${file}`;
+
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = file;  
+        document.body.appendChild(link);  
+        link.click(); 
+        document.body.removeChild(link); 
+    }
+
+        loadFiles();
+
+        document.getElementById('fileInput').onchange = function() {
+            document.getElementById('uploadForm').submit();
+        };
+    </script>
+    </body>
+</html>

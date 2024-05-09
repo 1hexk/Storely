@@ -1,0 +1,323 @@
+
+:root {
+    --black: #000000;
+    --ch-black: #141414;
+    --eer-black: #1b1b1b;
+    --night-rider: #2e2e2e;
+    --white: #ffffff;
+    --af-white: #f3f3f3;
+    --ch-white: #e1e1e1;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+  font-family: poppins;
+}
+html{
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  scroll-behavior: smooth;
+}
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: white;
+    color: #333;
+}
+header{
+    width: 100%;
+    height: 80px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    padding-top: 40px;
+  }
+
+header .logo {
+    display: flex;
+    align-items: center;  /* This vertically centers the logo with the text */
+}
+
+header .logo img {
+    margin-right: 10px;  /* Adds some space between the logo and the text */
+}
+
+header .logo a {
+    font-size: 30px;  /* Adjust font size as needed */
+    font-weight: bold;  /* Makes the text bold */
+    color: black;  /* Set text color */
+    text-decoration: none;  /* Removes underline from the link */
+}
+
+.hamburger{
+    display: none;
+    cursor: pointer;
+  }
+
+  .header-container {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap onto the next line */
+    align-items: center; /* Vertically center align items */
+    padding: 10px;
+    justify-content: space-between; /* Space between the elements */
+}
+button[type='add file']{
+    background-color: #000000 !important; /* Ensuring it's black */
+    color: #ffffff; /* Text color */
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    align-items: center;
+    border-radius: 0.5rem;
+    display: flex;
+    gap: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    transition: all .6s ease;
+}
+
+button[type='Download']{
+    background-color: #000000 !important; /* Ensuring it's black */
+    color: #ffffff; /* Text color */
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    align-items: center;
+    border-radius: 0.5rem;
+    display: flex;
+    gap: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    transition: all .6s ease;
+}
+
+button[type='Delete']{
+    background-color: #ca0000 !important; /* Ensuring it's black */
+    color: #ffffff; /* Text color */
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    align-items: center;
+    border-radius: 0.5rem;
+    display: flex;
+    gap: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    transition: all .6s ease;
+}
+
+h2 {
+    margin-left: 80px;
+    font-size: 30px;  /* Adjust font size as needed */
+    font-weight: bold;  /* Makes the text bold */
+    color: black;  /* Set text color */
+    text-decoration: none;  /* Removes underline from the link */
+}
+
+.form-container {
+    flex: 1 0 auto; /* Allows the form to grow and shrink but not wrap */
+    text-align: right; /* Aligns the button to the right */
+}
+
+#uploadForm button {
+    background-color: #007BFF; /* Example blue color */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding inside the button */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+#uploadForm button svg {
+    margin-right: 5px; /* Space between the icon and text */
+}
+
+
+.file-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.file-box {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    width: 150px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    position: relative;
+}
+
+.file-box img {
+    vertical-align: middle; /* Align the icon with the text */
+    margin-right: 10px; /* Space between the icon and the text */
+}
+
+.file-box button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #000000;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.file-box button:hover {
+    opacity: 0.9;
+}
+
+a {
+    text-decoration: none;
+    color: #06c;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+button[type = 'add file'] {
+    border: none;
+    display: flex;
+    padding: 0.75rem 1.5rem;
+    background-color: #000000dc;
+    color: #ffffff;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    align-items: center;
+    border-radius: 0.5rem;
+    user-select: none;
+    gap: 0.75rem;
+    box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
+    transition: all .6s ease;
+  }
+  
+  button:hover {
+    box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
+  }
+  
+  button:focus,button:active {
+    opacity: .85;
+    box-shadow: none;
+  }
+  
+  button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+
+#uploadForm button {
+    margin-left: auto;  /* Push the button to the right */
+    padding: 10px 20px; /* Example padding, adjust as needed */
+}
+
+.Btn {
+    --black: #000000;
+    --ch-black: #141414;
+    --eer-black: #1b1b1b;
+    --night-rider: #2e2e2e;
+    --white: #ffffff;
+    --af-white: #f3f3f3;
+    --ch-white: #e1e1e1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: var(--night-rider);
+  }
+  
+  /* plus sign */
+  .sign {
+    width: 100%;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sign svg {
+    width: 17px;
+  }
+  
+  .sign svg path {
+    fill: var(--af-white);
+  }
+  /* text */
+  .text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: var(--af-white);
+    font-size: 1.2em;
+    font-weight: 600;
+    transition-duration: .3s;
+  }
+  /* hover effect on button width */
+  .Btn:hover {
+    width: 125px;
+    border-radius: 5px;
+    transition-duration: .3s;
+  }
+  
+  .Btn:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 20px;
+  }
+  /* hover effect button's text */
+  .Btn:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 10px;
+  }
+  /* button click effect*/
+  .Btn:active {
+    transform: translate(2px ,2px);
+  }
+
+@media (max-width: 600px) {
+    .header-container {
+        justify-content: center; /* Center items when not enough space */
+        text-align: center; /* Center-align text */
+    }
+
+    .form-container {
+        width: 100%; /* Full width for the button to sit below the text */
+        margin-top: 10px; /* Space between text and button */
+    }
+}
+
+
